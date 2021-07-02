@@ -5,9 +5,6 @@ import * as React from 'react'
 
 function UsernameForm({onSubmitUsername}) {
   const usernameInput = React.useRef();
-  const [ errorMessage, setErrorMessage ] = React.useState('');
-  // I really wanted to null-check the username, so I'm putting it in state
-  // You can't just access the ref.current.value :(
   const [ username, setUsername ] = React.useState('');
 
   function handleSubmit(event) {
@@ -16,10 +13,7 @@ function UsernameForm({onSubmitUsername}) {
   }
 
   function handleChange(event) {
-    const { value } = event.target;
-    setUsername(value);
-    const isLowerCase = value === value.toLowerCase();
-    setErrorMessage(isLowerCase ? '' : '😡 Username must be lowercase.');
+    setUsername(event.target.value.toLowerCase());
   }
 
   return (
@@ -27,17 +21,14 @@ function UsernameForm({onSubmitUsername}) {
       <div>
         <label htmlFor="usernameInput">Username:</label>
         <input 
-          type="text" 
           id="usernameInput" 
-          ref={usernameInput} 
           onChange={handleChange} 
+          ref={usernameInput} 
+          type="text" 
+          value={username}
         />
-        <div role="alert">{errorMessage}</div>
       </div>
-      <button 
-        type="submit" 
-        disabled={!Boolean(username) || Boolean(errorMessage)}
-      >
+      <button type="submit" disabled={!Boolean(username)}>
           Submit
       </button>
     </form>
