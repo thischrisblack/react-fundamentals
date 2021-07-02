@@ -4,12 +4,13 @@
 import * as React from 'react'
 
 function UsernameForm({onSubmitUsername}) {
+  const usernameInput = React.useRef('');
   function handleSubmit(event) {
     event.preventDefault();
-    const { usernameInput } = event.target.elements;
+    console.log(usernameInput);
     // Let's validate
-    if (!['', null, undefined].includes(usernameInput?.value)) {
-      onSubmitUsername(usernameInput.value);
+    if (usernameInput.current.value !== '') {
+      onSubmitUsername(usernameInput.current.value);
     }
   }
 
@@ -17,7 +18,7 @@ function UsernameForm({onSubmitUsername}) {
     <form onSubmit={handleSubmit}>
       <div>
         <label htmlFor="usernameInput">Username:</label>
-        <input type="text" id="usernameInput" />
+        <input type="text" id="usernameInput" ref={usernameInput} />
       </div>
       <button type="submit">Submit</button>
     </form>
